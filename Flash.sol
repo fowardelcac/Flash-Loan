@@ -4,7 +4,6 @@ pragma solidity >=0.8.10;
 import "contracts/FlashLoanSimpleReceiverBase.sol";
 import "node_modules/@openzeppelin/contracts/access/Ownable.sol";
 import "node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "node_modules/@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 contract Flash is FlashLoanSimpleReceiverBase, Ownable {
     constructor(IPoolAddressesProvider _provider)
@@ -18,7 +17,7 @@ contract Flash is FlashLoanSimpleReceiverBase, Ownable {
         address initiator,
         bytes calldata params
     ) external override returns (bool) {
-        uint256 _premium = SafeMath.add(amount, premium);
+        uint256 _premium = amount + premium;
 
         IERC20(asset).approve(address(POOL), _premium);
         return true;
